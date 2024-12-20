@@ -88,6 +88,4 @@ contract VideoNFTPPV is ERC721URIStorage {
 }
 
 
-
-
 }

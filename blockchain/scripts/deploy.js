@@ -1,7 +1,7 @@
 const { ethers } = require("hardhat");
 
 async function main() {
-    // Deploying MyNFT contract
+    // Deploying MyNFT contracts
 
 
         const MyNFT = await ethers.getContractFactory("MNFT");
