@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { ethers } from "ethers";
 import { Row, Col, Button, Spinner, Alert } from "react-bootstrap";
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from 'react-toastify';
 
 const Marketplace = ({ mergedContract }) => {
   const [loading, setLoading] = useState(true);
@@ -44,7 +46,7 @@ const Marketplace = ({ mergedContract }) => {
       setItems(loadedItems);
     } catch (err) {
       console.error("Error loading items:", err);
-      setError("Unable to load marketplace items. Try again later.");
+      toast.error("Unable to load marketplace items. Try again later.");
     } finally {
       setLoading(false);
     }
@@ -61,9 +63,11 @@ const Marketplace = ({ mergedContract }) => {
 
       
       setAccess((prev) => ({ ...prev, [item.tokenId]: true }));
+      toast.success("Purchase successful! You now have access to this video.");
+
     } catch (err) {
       console.error("Purchase error:", err);
-      setError("seller cant buy, listed nft.");
+      toast.error("Unable to complete purchase. Please try again.");
     } finally {
       setPurchasing(false);
     }
@@ -86,6 +90,8 @@ const Marketplace = ({ mergedContract }) => {
 
   return (
     <div className="container mt-5">
+      <ToastContainer />
+
       <Row xs={1} md={2} lg={3} className="g-4">
         {items.map((item) => (
           <Col key={item.itemId}>
