@@ -10,6 +10,8 @@ const Create = ({ mergedContract }) => {
   const [price, setPrice] = useState('');
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
+  const [processing,setProcessing] = useState(false);
+
 
   const PINATA_API_KEY = "20a1ac93e10b67f081c5";
   const PINATA_SECRET_API_KEY = "2b3680b650e07a507c4df5a9649b9b6438d7f8e4c3cc0cfab22a73bb968d02d7";
@@ -51,6 +53,9 @@ const Create = ({ mergedContract }) => {
       toast.error('Invalid price! Enter a number greater than 0.');
       return;
     }
+      setProcessing(true);
+
+
 
     try {
       const metadata = { video, name, description };
@@ -70,6 +75,9 @@ const Create = ({ mergedContract }) => {
       console.error("NFT creation error:", err);
       toast.error('NFT creation failed.');
     }
+    finally {
+      setProcessing(false);
+    }
   };
 
   return (
@@ -79,8 +87,8 @@ const Create = ({ mergedContract }) => {
         <Form.Control onChange={(e) => setName(e.target.value)} size="lg" type="text" placeholder="Name" />
         <Form.Control onChange={(e) => setDescription(e.target.value)} size="lg" as="textarea" placeholder="Description" />
         <Form.Control onChange={(e) => setPrice(e.target.value)} size="lg" type="number" placeholder="Price in ETH" />
-        <Button onClick={createNFT} variant="primary" size="lg">Create & List NFT!</Button>
-      </Row>
+        <Button onClick={createNFT} variant="primary" size="lg" disabled={processing}> {processing ? 'Processing..' : 'Create & List NFT!'}</Button>
+        </Row>
       <ToastContainer />
     </div>
   );
